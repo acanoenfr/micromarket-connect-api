@@ -1,0 +1,33 @@
+﻿using Microsoft.Extensions.Logging;
+using Xunit.Abstractions;
+
+namespace Com.MicroMarketConnect.API.AcceptanceTests;
+
+internal class XunitLogger<T>(ITestOutputHelper output) : ILogger<T>, IDisposable
+{
+    public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
+    {
+        output.WriteLine(state?.ToString());
+    }
+
+    public bool IsEnabled(LogLevel logLevel)
+    {
+        return true;
+    }
+
+    public IDisposable BeginScope<TState>(TState state)
+    {
+        return this;
+    }
+
+    private void Dispose(bool disposing)
+    {
+        // Cleanup
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+}

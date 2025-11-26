@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/Application/">
+    <Project Path="Com.MicroMarketConnect.API.Application.Read/Com.MicroMarketConnect.API.Application.Read.csproj" />
+    <Project Path="Com.MicroMarketConnect.API.Application.Write/Com.MicroMarketConnect.API.Application.Write.csproj" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="Com.MicroMarketConnect.API.AcceptanceTests/Com.MicroMarketConnect.API.AcceptanceTests.csproj" />
+  </Folder>
+  <Project Path="Com.MicroMarketConnect.API.Core/Com.MicroMarketConnect.API.Core.csproj" />
+  <Project Path="Com.MicroMarketConnect.API.Domain/Com.MicroMarketConnect.API.Domain.csproj" />
+  <Project Path="Com.MicroMarketConnect.API.Infrastructure/Com.MicroMarketConnect.API.Infrastructure.csproj" />
+  <Project Path="Com.MicroMarketConnect.API.Web/Com.MicroMarketConnect.API.Web.csproj" />
+</Solution>
