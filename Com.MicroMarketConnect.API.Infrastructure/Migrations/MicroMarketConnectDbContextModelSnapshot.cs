@@ -33,7 +33,7 @@ namespace Com.MicroMarketConnect.API.Infrastructure.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(250)
+                        .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("DisplayName")
@@ -43,7 +43,7 @@ namespace Com.MicroMarketConnect.API.Infrastructure.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(250)
+                        .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
@@ -64,9 +64,8 @@ namespace Com.MicroMarketConnect.API.Infrastructure.Migrations
 
                     b.Property<string>("Role")
                         .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(100)")
-                        .HasDefaultValue("Member");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("OrganizationId", "UserId");
 
@@ -78,13 +77,11 @@ namespace Com.MicroMarketConnect.API.Infrastructure.Migrations
             modelBuilder.Entity("Com.MicroMarketConnect.API.Infrastructure.Identity.Roles.RoleEntity", b =>
                 {
                     b.Property<string>("Name")
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(100)")
-                        .HasDefaultValue("PlatformUser");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(250)
+                        .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("DisplayName")
@@ -99,19 +96,19 @@ namespace Com.MicroMarketConnect.API.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Name = "PlatformUser",
+                            Name = "Platform.User",
                             Description = "Simple access to application.",
                             DisplayName = "Platform user"
                         },
                         new
                         {
-                            Name = "PlatformModerator",
+                            Name = "Platform.Moderator",
                             Description = "Moderating users and organizations behaviors on the platform.",
                             DisplayName = "Platform moderator"
                         },
                         new
                         {
-                            Name = "PlatformAdmin",
+                            Name = "Platform.Admin",
                             Description = "Managing the platform.",
                             DisplayName = "Platform administrator"
                         });
@@ -146,12 +143,12 @@ namespace Com.MicroMarketConnect.API.Infrastructure.Migrations
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
-                        .HasMaxLength(250)
+                        .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("PasswordSalt")
                         .IsRequired()
-                        .HasMaxLength(250)
+                        .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
                     b.HasKey("Id");
@@ -168,7 +165,7 @@ namespace Com.MicroMarketConnect.API.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("RoleName")
-                        .HasMaxLength(250)
+                        .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("UserId", "RoleName");

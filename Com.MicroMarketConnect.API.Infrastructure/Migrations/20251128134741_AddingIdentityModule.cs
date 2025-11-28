@@ -22,9 +22,9 @@ namespace Com.MicroMarketConnect.API.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 250, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     DisplayName = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 250, nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false)
                 },
                 constraints: table =>
@@ -37,9 +37,9 @@ namespace Com.MicroMarketConnect.API.Infrastructure.Migrations
                 schema: "mmc",
                 columns: table => new
                 {
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 250, nullable: false, defaultValue: "PlatformUser"),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     DisplayName = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 250, nullable: true)
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -54,8 +54,8 @@ namespace Com.MicroMarketConnect.API.Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     DiplayName = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(500)", maxLength: 250, nullable: false),
-                    PasswordSalt = table.Column<string>(type: "nvarchar(500)", maxLength: 250, nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    PasswordSalt = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     LastLoginAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
@@ -72,7 +72,7 @@ namespace Com.MicroMarketConnect.API.Infrastructure.Migrations
                 {
                     OrganizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Role = table.Column<string>(type: "nvarchar(100)", nullable: false, defaultValue: "Member")
+                    Role = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -99,7 +99,7 @@ namespace Com.MicroMarketConnect.API.Infrastructure.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RoleName = table.Column<string>(type: "nvarchar(100)", maxLength: 250, nullable: false)
+                    RoleName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -126,9 +126,9 @@ namespace Com.MicroMarketConnect.API.Infrastructure.Migrations
                 columns: new[] { "Name", "Description", "DisplayName" },
                 values: new object[,]
                 {
-                    { "PlatformAdmin", "Managing the platform.", "Platform administrator" },
-                    { "PlatformModerator", "Moderating users and organizations behaviors on the platform.", "Platform moderator" },
-                    { "PlatformUser", "Simple access to application.", "Platform user" }
+                    { "Platform.Admin", "Managing the platform.", "Platform administrator" },
+                    { "Platform.Moderator", "Moderating users and organizations behaviors on the platform.", "Platform moderator" },
+                    { "Platform.User", "Simple access to application.", "Platform user" }
                 });
 
             migrationBuilder.CreateIndex(
