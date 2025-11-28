@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
-namespace Com.MicroMarketConnect.API.Domain.SharedModule.Enums;
+namespace Com.MicroMarketConnect.API.Domain.IdentityModule.Aggregates.Enums;
 
 public enum OrganizationMemberRole
 {

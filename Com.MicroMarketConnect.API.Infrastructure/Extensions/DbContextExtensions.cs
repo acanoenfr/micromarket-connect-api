@@ -1,4 +1,4 @@
-﻿using Com.MicroMarketConnect.API.Domain.SharedModule.Enums;
+﻿using Com.MicroMarketConnect.API.Domain.IdentityModule.Aggregates.Enums;
 using Com.MicroMarketConnect.API.Infrastructure.Database;
 using Com.MicroMarketConnect.API.Infrastructure.Extensions;
 using Com.MicroMarketConnect.API.Infrastructure.Identity.Organizations;
