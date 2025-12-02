@@ -3,6 +3,7 @@
 namespace Com.MicroMarketConnect.API.Domain.IdentityModule.Organization.Events;
 
 public record OrganizationDeletedEvent(
-    RowId Id)
+    RowId Id) : IOrganizationEvent
 {
+    public T Accept<T>(IOrganizationEventVisitor<T> visitor) => visitor.Handle(this);
 }

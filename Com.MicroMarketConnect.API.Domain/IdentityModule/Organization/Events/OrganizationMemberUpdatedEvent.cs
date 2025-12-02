@@ -8,4 +8,5 @@ public record OrganizationMemberUpdatedEvent(
     RowId UserId,
     MemberRole Role)
 {
+    public T Accept<T>(IOrganizationMemberEventVisitor<T> visitor) => visitor.Handle(this);
 }

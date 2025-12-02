@@ -6,4 +6,5 @@ public record OrganizationMemberDeletedEvent(
     RowId OrganizationId,
     RowId UserId)
 {
+    public T Accept<T>(IOrganizationMemberEventVisitor<T> visitor) => visitor.Handle(this);
 }

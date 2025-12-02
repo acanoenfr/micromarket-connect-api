@@ -5,11 +5,7 @@ namespace Com.MicroMarketConnect.API.Domain.IdentityModule.Organization.Events;
 public record OrganizationAddedEvent(
     Name Name,
     DisplayName DisplayName,
-    Description Description)
+    Description Description) : IOrganizationEvent
 {
-    public static OrganizationAddedEvent Hydrate(
-        Name Name,
-        DisplayName DisplayName,
-        Description Description)
-        => new(Name, DisplayName, Description);
+    public T Accept<T>(IOrganizationEventVisitor<T> visitor) => visitor.Handle(this);
 }

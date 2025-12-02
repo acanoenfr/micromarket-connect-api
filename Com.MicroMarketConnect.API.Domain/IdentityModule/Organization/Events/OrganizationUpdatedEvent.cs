@@ -6,12 +6,7 @@ public record OrganizationUpdatedEvent(
     RowId Id,
     Name Name,
     DisplayName DisplayName,
-    Description Description)
+    Description Description) : IOrganizationEvent
 {
-    public static OrganizationUpdatedEvent Hydrate(
-        RowId Id,
-        Name Name,
-        DisplayName DisplayName,
-        Description Description)
-        => new(Id, Name, DisplayName, Description);
+    public T Accept<T>(IOrganizationEventVisitor<T> visitor) => visitor.Handle(this);
 }
