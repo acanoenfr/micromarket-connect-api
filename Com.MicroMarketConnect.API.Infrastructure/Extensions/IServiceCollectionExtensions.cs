@@ -3,6 +3,7 @@ using Com.MicroMarketConnect.API.Core.Ports;
 using Com.MicroMarketConnect.API.Infrastructure.Configurations;
 using Com.MicroMarketConnect.API.Infrastructure.Database;
 using Com.MicroMarketConnect.API.Infrastructure.Identity;
+using Com.MicroMarketConnect.API.Infrastructure.Identity.Organizations;
 using Com.MicroMarketConnect.API.Infrastructure.Identity.Users;
 using Com.MicroMarketConnect.API.Infrastructure.Metrics;
 using Com.MicroMarketConnect.API.Infrastructure.Orchestration;
@@ -70,7 +71,12 @@ public static class IServiceCollectionExtensions
         return services
             .AddScoped<IDomainEventsRepository, DomainEventsRepository>()
             // Users
-            .AddScoped<IDomainEventRepository, UserDomainEventRepository>();
+            .AddScoped<IDomainEventRepository, UserDomainEventRepository>()
+            .AddScoped<IUserCommandRepository, UserCommandRepository>()
+            .AddScoped<IDomainEventRepository, UserRoleDomainEventRepository>()
+            // Organizations
+            .AddScoped<IDomainEventRepository, OrganizationDomainEventRepository>()
+            .AddScoped<IDomainEventRepository, OrganizationMemberDomainEventRepository>();
     }
 
     public static IServiceCollection AddOrchestration(this IServiceCollection services)

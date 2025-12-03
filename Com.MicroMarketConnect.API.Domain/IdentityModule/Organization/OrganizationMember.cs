@@ -6,11 +6,11 @@ namespace Com.MicroMarketConnect.API.Domain.IdentityModule.Organization;
 public record OrganizationMember(
     RowId OrganizationId,
     RowId UserId,
-    MemberRole Role)
+    RoleName Role)
 {
     public static OrganizationMember Hydrate(
         RowId OrganizationId,
         RowId UserId,
-        MemberRole Role)
+        RoleName Role)
         => new(OrganizationId, UserId, Role);
 }

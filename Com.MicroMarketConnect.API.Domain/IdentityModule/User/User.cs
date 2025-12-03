@@ -1,4 +1,6 @@
-﻿using Com.MicroMarketConnect.API.Domain.IdentityModule.Aggregates;
+﻿using Com.MicroMarketConnect.API.Core;
+using Com.MicroMarketConnect.API.Domain.IdentityModule.Aggregates;
+using Com.MicroMarketConnect.API.Domain.IdentityModule.User.Events;
 using Com.MicroMarketConnect.API.Domain.SharedModule.Aggregates;
 
 namespace Com.MicroMarketConnect.API.Domain.IdentityModule.User;
@@ -23,4 +25,13 @@ public record User(
         CreatedAt CreatedAt,
         LastLoginAt LastLoginAt)
         => new(Id, DisplayName, Email, PasswordHash, PasswordSalt, IsActive, CreatedAt, LastLoginAt);
+
+    public static IEnumerable<IDomainEvent> Create(
+        DisplayName DisplayName,
+        EmailAddress Email,
+        PasswordHash PasswordHash,
+        PasswordSalt PasswordSalt)
+    {
+        yield return new UserAddedEvent(DisplayName, Email, PasswordHash, PasswordSalt);
+    }
 }
