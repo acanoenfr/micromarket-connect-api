@@ -1,5 +1,5 @@
-﻿using Com.MicroMarketConnect.API.Domain.IdentityModule.Aggregates.Enums;
-using Com.MicroMarketConnect.API.Infrastructure.Extensions;
+﻿using Com.MicroMarketConnect.API.Core.Extensions;
+using Com.MicroMarketConnect.API.Domain.IdentityModule.Aggregates.Enums;
 
 namespace Com.MicroMarketConnect.API.Web;
 

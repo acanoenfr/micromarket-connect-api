@@ -7,7 +7,6 @@ namespace Com.MicroMarketConnect.API.Infrastructure.Identity.Users;
 
 public class UserDomainEventRepository(
     IIdentityDbContext dbContext,
-    IGuidProvider guidProvider,
     IDateProvider dateProvider) : DomainEventRepository<IUserEvent>, IUserEventVisitor<Task>
 {
     protected override Task ApplyEvent(IUserEvent domainEvent) => domainEvent.Accept(this);
