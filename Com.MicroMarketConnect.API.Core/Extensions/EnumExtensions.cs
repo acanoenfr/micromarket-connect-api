@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using System.Runtime.Serialization;
 
-namespace Com.MicroMarketConnect.API.Infrastructure.Extensions;
+namespace Com.MicroMarketConnect.API.Core.Extensions;
 
 public static class EnumExtensions
 {

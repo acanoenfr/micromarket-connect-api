@@ -71,19 +71,19 @@ public static class DbContextExtensions
             entity.HasData(
                 new RoleEntity
                 {
-                    Name = UserRole.PlatformUser.GetValue(),
+                    Name = UserRoleEnum.PlatformUser.GetValue(),
                     DisplayName = "Platform user",
                     Description = "Simple access to application."
                 },
                 new RoleEntity
                 {
-                    Name = UserRole.PlatformModerator.GetValue(),
+                    Name = UserRoleEnum.PlatformModerator.GetValue(),
                     DisplayName = "Platform moderator",
                     Description = "Moderating users and organizations behaviors on the platform."
                 },
                 new RoleEntity
                 {
-                    Name = UserRole.PlatformAdmin.GetValue(),
+                    Name = UserRoleEnum.PlatformAdmin.GetValue(),
                     DisplayName = "Platform administrator",
                     Description = "Managing the platform."
                 });

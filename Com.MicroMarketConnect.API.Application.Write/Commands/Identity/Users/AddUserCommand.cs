@@ -1,18 +1,26 @@
 ﻿using Com.MicroMarketConnect.API.Application.Write.Ports;
 using Com.MicroMarketConnect.API.Core;
+using Com.MicroMarketConnect.API.Core.Extensions;
 using Com.MicroMarketConnect.API.Core.Orchestration;
+using Com.MicroMarketConnect.API.Core.Ports;
 using Com.MicroMarketConnect.API.Core.Validation;
 using Com.MicroMarketConnect.API.Domain.IdentityModule.Aggregates;
+using Com.MicroMarketConnect.API.Domain.IdentityModule.Aggregates.Enums;
 using Com.MicroMarketConnect.API.Domain.IdentityModule.User;
 using Com.MicroMarketConnect.API.Domain.SharedModule.Aggregates;
 using FluentResults;
 
 namespace Com.MicroMarketConnect.API.Application.Write.Commands.Identity.Users;
 
-public record AddUserCommand(string DisplayName, string Email, string PlainPassword) : IEventDrivenCommand;
+public record AddUserCommand(
+    string DisplayName,
+    string Email,
+    string PlainPassword,
+    UserRoleEnum[] UserRoles) : IEventDrivenCommand;
 
 public class AddUserCommandHandler(
     IUserCommandRepository repository,
+    IGuidProvider guidProvider,
     IHasherProvider hasherProvider) : CommandHandler<AddUserCommand>
 {
     protected override async Task<Result<IReadOnlyCollection<IDomainEvent>>> Handle(AddUserCommand command)
@@ -29,11 +37,17 @@ public class AddUserCommandHandler(
         if (validUser is { IsFailed: true, Errors: var validationErrors })
             return Result.Fail(validationErrors);
 
+        var roleNames = command.UserRoles
+            .ToList()
+            .Select(r => RoleName.Hydrate(r.GetValue()));
+
         var addedUser = User.Create(
+            RowId.Hydrate(guidProvider.NewGuid()),
             DisplayName.Hydrate(command.DisplayName),
             EmailAddress.Hydrate(command.Email),
             Domain.IdentityModule.Aggregates.PasswordHash.Hydrate(passwordHash.Hash),
-            PasswordSalt.Hydrate(passwordHash.Salt));
+            PasswordSalt.Hydrate(passwordHash.Salt),
+            roleNames);
 
         return Result.Ok<IReadOnlyCollection<IDomainEvent>>([.. addedUser]);
     }

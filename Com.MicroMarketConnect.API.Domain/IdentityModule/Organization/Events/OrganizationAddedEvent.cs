@@ -3,6 +3,7 @@
 namespace Com.MicroMarketConnect.API.Domain.IdentityModule.Organization.Events;
 
 public record OrganizationAddedEvent(
+    RowId Id,
     Name Name,
     DisplayName DisplayName,
     Description Description) : IOrganizationEvent

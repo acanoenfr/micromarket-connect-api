@@ -4,6 +4,7 @@ using Com.MicroMarketConnect.API.Domain.SharedModule.Aggregates;
 namespace Com.MicroMarketConnect.API.Domain.IdentityModule.User.Events;
 
 public record UserAddedEvent(
+    RowId Id,
     DisplayName DisplayName,
     EmailAddress Email,
     PasswordHash PasswordHash,

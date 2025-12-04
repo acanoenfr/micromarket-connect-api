@@ -27,11 +27,16 @@ public record User(
         => new(Id, DisplayName, Email, PasswordHash, PasswordSalt, IsActive, CreatedAt, LastLoginAt);
 
     public static IEnumerable<IDomainEvent> Create(
+        RowId Id,
         DisplayName DisplayName,
         EmailAddress Email,
         PasswordHash PasswordHash,
-        PasswordSalt PasswordSalt)
+        PasswordSalt PasswordSalt,
+        IEnumerable<RoleName> RoleNames)
     {
-        yield return new UserAddedEvent(DisplayName, Email, PasswordHash, PasswordSalt);
+        yield return new UserAddedEvent(Id, DisplayName, Email, PasswordHash, PasswordSalt);
+
+        foreach (var RoleName in RoleNames)
+            yield return new UserRoleAddedEvent(Id, RoleName);
     }
 }

@@ -7,9 +7,9 @@ public static class Roles
 {
     #region Platform roles
 
-    public static readonly string PlatformUser = UserRole.PlatformUser.GetValue();
-    public static readonly string PlatformModerator = UserRole.PlatformModerator.GetValue();
-    public static readonly string PlatformAdmin = UserRole.PlatformAdmin.GetValue();
+    public static readonly string PlatformUser = UserRoleEnum.PlatformUser.GetValue();
+    public static readonly string PlatformModerator = UserRoleEnum.PlatformModerator.GetValue();
+    public static readonly string PlatformAdmin = UserRoleEnum.PlatformAdmin.GetValue();
 
     #endregion
 }

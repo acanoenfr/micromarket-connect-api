@@ -16,7 +16,7 @@ public class UserDomainEventRepository(
     {
         var entity = new UserEntity()
         {
-            Id = guidProvider.NewGuid(),
+            Id = @event.Id.Value,
             DiplayName = @event.DisplayName.Value,
             Email = @event.Email.Value,
             PasswordHash = @event.PasswordHash.Value,

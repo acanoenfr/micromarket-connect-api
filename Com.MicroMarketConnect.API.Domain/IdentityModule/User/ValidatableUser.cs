@@ -5,7 +5,7 @@ namespace Com.MicroMarketConnect.API.Domain.IdentityModule.User;
 
 public static class UserErrorCodes
 {
-    public static readonly string ErrorInvalidDisplayNameField = "ERROR_INVALID_DISPLAYNAME_FIELD";
+    public static readonly string ErrorInvalidDisplayNameField = "ERROR_INVALID_DISPLAY_NAME_FIELD";
     public static readonly string ErrorInvalidEmailField = "ERROR_INVALID_EMAIL_FIELD";
 }
 

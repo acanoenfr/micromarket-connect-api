@@ -3,17 +3,21 @@ using System.Runtime.Serialization;
 
 namespace Com.MicroMarketConnect.API.Domain.IdentityModule.Aggregates.Enums;
 
-public enum OrganizationMemberRole
+public enum UserRoleEnum
 {
-    [EnumMember(Value = "Organization.Owner")]
-    [EnumDataType(typeof(string))]
-    Owner,
+    #region Platform roles
 
-    [EnumMember(Value = "Organization.Manager")]
+    [EnumMember(Value = "Platform.Admin")]
     [EnumDataType(typeof(string))]
-    Manager,
+    PlatformAdmin,
 
-    [EnumMember(Value = "Organization.Member")]
+    [EnumMember(Value = "Platform.Moderator")]
     [EnumDataType(typeof(string))]
-    Member
+    PlatformModerator,
+
+    [EnumMember(Value = "Platform.User")]
+    [EnumDataType(typeof(string))]
+    PlatformUser
+
+    #endregion
 }
