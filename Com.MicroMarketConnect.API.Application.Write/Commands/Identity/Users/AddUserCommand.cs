@@ -35,7 +35,7 @@ public class AddUserCommandHandler(
         if (validUser is { IsFailed: true, Errors: var validationErrors })
             return Result.Fail(validationErrors);
 
-        var roleNames = command.UserRoles
+        var roles = command.UserRoles
             .ToList()
             .Select(RoleName.Hydrate);
 
@@ -45,7 +45,7 @@ public class AddUserCommandHandler(
             EmailAddress.Hydrate(command.Email),
             Domain.IdentityModule.Aggregates.PasswordHash.Hydrate(passwordHash.Hash),
             PasswordSalt.Hydrate(passwordHash.Salt),
-            roleNames);
+            roles);
 
         return Result.Ok<IReadOnlyCollection<IDomainEvent>>([.. addedUser]);
     }

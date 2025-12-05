@@ -32,11 +32,11 @@ public record User(
         EmailAddress Email,
         PasswordHash PasswordHash,
         PasswordSalt PasswordSalt,
-        IEnumerable<RoleName> RoleNames)
+        IEnumerable<RoleName> Roles)
     {
         yield return new UserAddedEvent(Id, DisplayName, Email, PasswordHash, PasswordSalt);
 
-        foreach (var RoleName in RoleNames)
-            yield return new UserRoleAddedEvent(Id, RoleName);
+        foreach (var Role in Roles)
+            yield return new UserRoleAddedEvent(Id, Role);
     }
 }

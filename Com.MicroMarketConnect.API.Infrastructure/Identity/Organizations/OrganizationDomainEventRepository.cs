@@ -8,7 +8,6 @@ namespace Com.MicroMarketConnect.API.Infrastructure.Identity.Organizations;
 
 public class OrganizationDomainEventRepository(
     IIdentityDbContext dbContext,
-    IGuidProvider guidProvider,
     IDateProvider dateProvider) : DomainEventRepository<IOrganizationEvent>, IOrganizationEventVisitor<Task>
 {
     protected override Task ApplyEvent(IOrganizationEvent domainEvent) => domainEvent.Accept(this);
@@ -17,7 +16,7 @@ public class OrganizationDomainEventRepository(
     {
         var entity = new OrganizationEntity()
         {
-            Id = guidProvider.NewGuid(),
+            Id = @event.Id.Value,
             Name = @event.Name.Value,
             DisplayName = @event.DisplayName.Value,
             Description = @event.Description.Value,

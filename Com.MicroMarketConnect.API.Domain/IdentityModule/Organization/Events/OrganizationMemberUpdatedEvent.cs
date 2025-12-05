@@ -6,7 +6,7 @@ namespace Com.MicroMarketConnect.API.Domain.IdentityModule.Organization.Events;
 public record OrganizationMemberUpdatedEvent(
     RowId OrganizationId,
     RowId UserId,
-    RoleName Role)
+    RoleName Role) : IOrganizationMemberEvent
 {
     public T Accept<T>(IOrganizationMemberEventVisitor<T> visitor) => visitor.Handle(this);
 }

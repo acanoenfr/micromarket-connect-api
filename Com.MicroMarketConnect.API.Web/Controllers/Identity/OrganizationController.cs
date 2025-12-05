@@ -1,0 +1,77 @@
+﻿using Asp.Versioning;
+using Com.MicroMarketConnect.API.Application.Write.Commands.Identity.Organizations;
+using Com.MicroMarketConnect.API.Domain.IdentityModule.Organization.Events;
+using Com.MicroMarketConnect.API.Infrastructure.Orchestration;
+using Com.MicroMarketConnect.API.Web.Builders;
+using Com.MicroMarketConnect.API.Web.ViewModels.Identity.Organizations;
+using FluentResults;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Com.MicroMarketConnect.API.Web.Controllers.Identity;
+
+[Route("api/v{version:apiVersion}/organizations")]
+[ApiVersion("1.0")]
+[ApiController]
+public class OrganizationController(WebDispatcher dispatcher) : ControllerBase
+{
+    [HttpPost]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<ActionResult<Guid>> AddOrganization(
+        [FromBody] AddOrganizationRequest request)
+    {
+        var result = await dispatcher.Dispatch(request.ToCommand());
+
+        return result.ToActionResult(
+            events =>
+            {
+                var @event = events.OfType<OrganizationAddedEvent>().First();
+                var builder = HateOasUriBuilder
+                    .CreateBuilder()
+                    .AppendPathWithoutVersion(HttpContext.Request)
+                    .AppendSegmentValue(@event.Id.Value.ToString());
+
+                return Created(builder.GenerateUriString(), @event.Id.Value);
+            },
+            errors => errors.FirstOrDefault() switch
+            {
+                _ => StatusCode(500, errors.FirstOrDefault())
+            });
+    }
+
+    [HttpPut("{id}")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<ActionResult> UpdateOrganization(
+        [FromRoute(Name = "id")] Guid id,
+        [FromBody] UpdateOrganizationRequest request)
+    {
+        var result = await dispatcher.Dispatch(request.ToCommand(id));
+
+        return result.ToActionResult(
+            events => NoContent(),
+            errors => errors.FirstOrDefault() switch
+            {
+                _ => StatusCode(500, errors.FirstOrDefault())
+            });
+    }
+
+    [HttpDelete("{id}")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<ActionResult> DeleteOrganization(
+        [FromRoute(Name = "id")] Guid id)
+    {
+        var result = await dispatcher.Dispatch(new DeleteOrganizationCommand(id));
+
+        return result.ToActionResult(
+            events => NoContent(),
+            errors => errors.FirstOrDefault() switch
+            {
+                _ => StatusCode(500, errors.FirstOrDefault())
+            });
+    }
+}
