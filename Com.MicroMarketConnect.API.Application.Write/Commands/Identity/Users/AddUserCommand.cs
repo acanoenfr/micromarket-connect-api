@@ -1,11 +1,9 @@
 ﻿using Com.MicroMarketConnect.API.Application.Write.Ports;
 using Com.MicroMarketConnect.API.Core;
-using Com.MicroMarketConnect.API.Core.Extensions;
 using Com.MicroMarketConnect.API.Core.Orchestration;
 using Com.MicroMarketConnect.API.Core.Ports;
 using Com.MicroMarketConnect.API.Core.Validation;
 using Com.MicroMarketConnect.API.Domain.IdentityModule.Aggregates;
-using Com.MicroMarketConnect.API.Domain.IdentityModule.Aggregates.Enums;
 using Com.MicroMarketConnect.API.Domain.IdentityModule.User;
 using Com.MicroMarketConnect.API.Domain.SharedModule.Aggregates;
 using FluentResults;
@@ -16,7 +14,7 @@ public record AddUserCommand(
     string DisplayName,
     string Email,
     string PlainPassword,
-    UserRoleEnum[] UserRoles) : IEventDrivenCommand;
+    string[] UserRoles) : IEventDrivenCommand;
 
 public class AddUserCommandHandler(
     IUserCommandRepository repository,
@@ -39,7 +37,7 @@ public class AddUserCommandHandler(
 
         var roleNames = command.UserRoles
             .ToList()
-            .Select(r => RoleName.Hydrate(r.GetValue()));
+            .Select(RoleName.Hydrate);
 
         var addedUser = User.Create(
             RowId.Hydrate(guidProvider.NewGuid()),

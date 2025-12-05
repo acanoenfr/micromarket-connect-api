@@ -29,6 +29,7 @@ public class UserCommandRepository(
         try
         {
             var user = await dbContext.Users
+                .Include(u => u.UserRoles)
                 .Where(u => u.Email.Equals(username))
                 .FirstOrDefaultAsync();
 

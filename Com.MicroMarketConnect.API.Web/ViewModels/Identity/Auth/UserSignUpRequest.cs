@@ -10,5 +10,5 @@ public class UserSignUpRequest
     public required string PlainPassword { get; set; }
 
     public AddUserCommand ToCommand()
-        => new(DisplayName, Email, PlainPassword, [UserRoleEnum.PlatformUser]);
+        => new(DisplayName, Email, PlainPassword, [UserRoleClaims.PlatformUser]);
 }
