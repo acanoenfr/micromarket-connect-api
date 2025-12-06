@@ -1,12 +1,14 @@
 ﻿using Asp.Versioning;
 using Com.MicroMarketConnect.API.Application.Read.Queries.Identity.OrganizationMembers;
 using Com.MicroMarketConnect.API.Application.Read.Queries.Identity.Organizations;
+using Com.MicroMarketConnect.API.Application.Write.Commands.Identity.OrganizationMembers;
 using Com.MicroMarketConnect.API.Application.Write.Commands.Identity.Organizations;
 using Com.MicroMarketConnect.API.Domain.IdentityModule.Aggregates.Enums;
 using Com.MicroMarketConnect.API.Domain.IdentityModule.Organization.Events;
 using Com.MicroMarketConnect.API.Infrastructure.Orchestration;
 using Com.MicroMarketConnect.API.Web.Builders;
 using Com.MicroMarketConnect.API.Web.Extensions.QueryModels;
+using Com.MicroMarketConnect.API.Web.ViewModels.Identity.OrganizationMembers;
 using Com.MicroMarketConnect.API.Web.ViewModels.Identity.Organizations;
 using FluentResults;
 using Microsoft.AspNetCore.Authorization;
@@ -54,6 +56,8 @@ public class OrganizationController(WebDispatcher dispatcher) : ControllerBase
                 _ => StatusCode(500, err.FirstOrDefault())
             });
     }
+
+    #region Organization actions
 
     [HttpPost]
     [Authorize(Roles = UserRoleClaims.PlatformUser)]
@@ -118,4 +122,68 @@ public class OrganizationController(WebDispatcher dispatcher) : ControllerBase
                 _ => StatusCode(500, errors.FirstOrDefault())
             });
     }
+
+    #endregion
+
+    #region Member actions
+
+    [HttpPost("{id}/members")]
+    [Authorize(Roles = UserRoleClaims.PlatformUser)]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<ActionResult> AddOrganizationMember(
+        [FromRoute(Name = "id")] Guid id,
+        [FromBody] AddOrganizationMemberRequest request)
+    {
+        var result = await dispatcher.Dispatch(request.ToCommand(id));
+
+        return result.ToActionResult(
+            events => NoContent(),
+            errors => errors.FirstOrDefault() switch
+            {
+                _ => StatusCode(500, errors.FirstOrDefault())
+            });
+    }
+
+    [HttpPut("{id}/members/{userId}")]
+    [Authorize(Roles = UserRoleClaims.PlatformUser)]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<ActionResult> UpdateOrganizationMember(
+        [FromRoute(Name = "id")] Guid id,
+        [FromRoute(Name = "userId")] Guid userId,
+        [FromBody] UpdateOrganizationMemberRequest request)
+    {
+        var result = await dispatcher.Dispatch(request.ToCommand(id, userId));
+
+        return result.ToActionResult(
+            events => NoContent(),
+            errors => errors.FirstOrDefault() switch
+            {
+                _ => StatusCode(500, errors.FirstOrDefault())
+            });
+    }
+
+    [HttpDelete("{id}/members/{userId}")]
+    [Authorize(Roles = UserRoleClaims.PlatformUser)]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<ActionResult> DeleteOrganizationMember(
+        [FromRoute(Name = "id")] Guid id,
+        [FromRoute(Name = "userId")] Guid userId)
+    {
+        var result = await dispatcher.Dispatch(new DeleteOrganizationMemberCommand(id, userId));
+
+        return result.ToActionResult(
+            events => NoContent(),
+            errors => errors.FirstOrDefault() switch
+            {
+                _ => StatusCode(500, errors.FirstOrDefault())
+            });
+    }
+
+    #endregion
 }
