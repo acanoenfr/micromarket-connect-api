@@ -1,9 +1,12 @@
 ﻿using Asp.Versioning;
+using Com.MicroMarketConnect.API.Application.Read.Queries.Identity.OrganizationMembers;
+using Com.MicroMarketConnect.API.Application.Read.Queries.Identity.Organizations;
 using Com.MicroMarketConnect.API.Application.Write.Commands.Identity.Organizations;
 using Com.MicroMarketConnect.API.Domain.IdentityModule.Aggregates.Enums;
 using Com.MicroMarketConnect.API.Domain.IdentityModule.Organization.Events;
 using Com.MicroMarketConnect.API.Infrastructure.Orchestration;
 using Com.MicroMarketConnect.API.Web.Builders;
+using Com.MicroMarketConnect.API.Web.Extensions.QueryModels;
 using Com.MicroMarketConnect.API.Web.ViewModels.Identity.Organizations;
 using FluentResults;
 using Microsoft.AspNetCore.Authorization;
@@ -16,6 +19,42 @@ namespace Com.MicroMarketConnect.API.Web.Controllers.Identity;
 [ApiController]
 public class OrganizationController(WebDispatcher dispatcher) : ControllerBase
 {
+    [HttpGet("{name}")]
+    [Authorize(Roles = UserRoleClaims.PlatformUser)]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(typeof(OrganizationResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<ActionResult<OrganizationResponse>> GetOrganization(
+        [FromRoute(Name = "name")] string name)
+    {
+        var result = await dispatcher.Dispatch(new GetOrganizationQuery(name));
+
+        return result.ToActionResult(
+            v => Ok(v.ToViewModel()),
+            err => err.FirstOrDefault() switch
+            {
+                _ => StatusCode(500, err.FirstOrDefault())
+            });
+    }
+
+    [HttpGet("{name}/members")]
+    [Authorize(Roles = UserRoleClaims.PlatformUser)]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(typeof(IReadOnlyCollection<OrganizationMemberResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<ActionResult<IReadOnlyCollection<OrganizationMemberResponse>>> GetOrganizationMembers(
+        [FromRoute(Name = "name")] string name)
+    {
+        var result = await dispatcher.Dispatch(new GetOrganizationMemberQuery(name));
+
+        return result.ToActionResult(
+            v => Ok(v.ToViewModel()),
+            err => err.FirstOrDefault() switch
+            {
+                _ => StatusCode(500, err.FirstOrDefault())
+            });
+    }
+
     [HttpPost]
     [Authorize(Roles = UserRoleClaims.PlatformUser)]
     [MapToApiVersion("1.0")]
