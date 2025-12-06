@@ -1,4 +1,5 @@
 ﻿using Com.MicroMarketConnect.API.Core;
+using Com.MicroMarketConnect.API.Domain.IdentityModule.Aggregates;
 using Com.MicroMarketConnect.API.Domain.IdentityModule.Organization.Events;
 using Com.MicroMarketConnect.API.Domain.SharedModule.Aggregates;
 
@@ -26,6 +27,18 @@ public record Organization(
         Description Description)
     {
         yield return new OrganizationAddedEvent(Id, Name, DisplayName, Description);
+    }
+
+    public static IEnumerable<IDomainEvent> CreateWithOwner(
+        RowId Id,
+        Name Name,
+        DisplayName DisplayName,
+        Description Description,
+        RowId UserId,
+        RoleName Role)
+    {
+        yield return new OrganizationAddedEvent(Id, Name, DisplayName, Description);
+        yield return new OrganizationMemberAddedEvent(Id, UserId, Role);
     }
 
     public static IEnumerable<IDomainEvent> Update(

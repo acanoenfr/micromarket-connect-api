@@ -1,6 +1,8 @@
 ﻿using Com.MicroMarketConnect.API.Core;
 using Com.MicroMarketConnect.API.Core.Orchestration;
 using Com.MicroMarketConnect.API.Core.Ports;
+using Com.MicroMarketConnect.API.Domain.IdentityModule.Aggregates;
+using Com.MicroMarketConnect.API.Domain.IdentityModule.Aggregates.Enums;
 using Com.MicroMarketConnect.API.Domain.IdentityModule.Organization;
 using Com.MicroMarketConnect.API.Domain.SharedModule.Aggregates;
 using FluentResults;
@@ -21,11 +23,13 @@ public class AddOrganizationCommandHandler(
         var id = RowId.Hydrate(guidProvider.NewGuid());
         var userId = RowId.Hydrate(userProvider.GetId());
 
-        var addedOrganization = Organization.Create(
+        var addedOrganization = Organization.CreateWithOwner(
             id,
             Name.Hydrate(command.Name),
             DisplayName.Hydrate(command.DisplayName),
-            Description.Hydrate(command.Description));
+            Description.Hydrate(command.Description),
+            userId,
+            RoleName.Hydrate(OrganizationRoleClaims.Owner));
 
         return Result.Ok<IReadOnlyCollection<IDomainEvent>>([.. addedOrganization]);
     }

@@ -1,10 +1,12 @@
 ﻿using Asp.Versioning;
 using Com.MicroMarketConnect.API.Application.Write.Commands.Identity.Organizations;
+using Com.MicroMarketConnect.API.Domain.IdentityModule.Aggregates.Enums;
 using Com.MicroMarketConnect.API.Domain.IdentityModule.Organization.Events;
 using Com.MicroMarketConnect.API.Infrastructure.Orchestration;
 using Com.MicroMarketConnect.API.Web.Builders;
 using Com.MicroMarketConnect.API.Web.ViewModels.Identity.Organizations;
 using FluentResults;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Com.MicroMarketConnect.API.Web.Controllers.Identity;
@@ -15,6 +17,7 @@ namespace Com.MicroMarketConnect.API.Web.Controllers.Identity;
 public class OrganizationController(WebDispatcher dispatcher) : ControllerBase
 {
     [HttpPost]
+    [Authorize(Roles = UserRoleClaims.PlatformUser)]
     [MapToApiVersion("1.0")]
     [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -41,6 +44,7 @@ public class OrganizationController(WebDispatcher dispatcher) : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(Roles = UserRoleClaims.PlatformUser)]
     [MapToApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -59,6 +63,7 @@ public class OrganizationController(WebDispatcher dispatcher) : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = UserRoleClaims.PlatformUser)]
     [MapToApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
