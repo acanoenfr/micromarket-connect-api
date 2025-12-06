@@ -6,7 +6,7 @@ public class UpdateOrganizationRequest
 {
     public required string Name { get; set; }
     public required string DisplayName { get; set; }
-    public required string Description { get; set; }
+    public string? Description { get; set; }
 
     public UpdateOrganizationCommand ToCommand(Guid Id)
         => new(Id, Name, DisplayName, Description);

@@ -12,7 +12,7 @@ namespace Com.MicroMarketConnect.API.Application.Write.Commands.Identity.Organiz
 public record AddOrganizationCommand(
     string Name,
     string DisplayName,
-    string Description) : IEventDrivenCommand;
+    string? Description) : IEventDrivenCommand;
 
 public class AddOrganizationCommandHandler(
     IUserProvider userProvider,
