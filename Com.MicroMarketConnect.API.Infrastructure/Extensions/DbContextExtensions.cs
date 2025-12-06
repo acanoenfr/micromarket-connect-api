@@ -1,6 +1,5 @@
-﻿using Com.MicroMarketConnect.API.Domain.SharedModule.Enums;
+﻿using Com.MicroMarketConnect.API.Domain.IdentityModule.Aggregates.Enums;
 using Com.MicroMarketConnect.API.Infrastructure.Database;
-using Com.MicroMarketConnect.API.Infrastructure.Extensions;
 using Com.MicroMarketConnect.API.Infrastructure.Identity.Organizations;
 using Com.MicroMarketConnect.API.Infrastructure.Identity.Roles;
 using Com.MicroMarketConnect.API.Infrastructure.Identity.Users;
@@ -71,19 +70,19 @@ public static class DbContextExtensions
             entity.HasData(
                 new RoleEntity
                 {
-                    Name = UserRole.PlatformUser.GetValue(),
+                    Name = UserRoleClaims.PlatformUser,
                     DisplayName = "Platform user",
                     Description = "Simple access to application."
                 },
                 new RoleEntity
                 {
-                    Name = UserRole.PlatformModerator.GetValue(),
+                    Name = UserRoleClaims.PlatformModerator,
                     DisplayName = "Platform moderator",
                     Description = "Moderating users and organizations behaviors on the platform."
                 },
                 new RoleEntity
                 {
-                    Name = UserRole.PlatformAdmin.GetValue(),
+                    Name = UserRoleClaims.PlatformAdmin,
                     DisplayName = "Platform administrator",
                     Description = "Managing the platform."
                 });

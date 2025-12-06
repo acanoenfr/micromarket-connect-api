@@ -26,10 +26,4 @@
 	  <ProjectReference Include="..\Com.MicroMarketConnect.API.Infrastructure\Com.MicroMarketConnect.API.Infrastructure.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Controllers\" />
-	  <Folder Include="Extensions\QueryModels\" />
-	  <Folder Include="ViewModels\" />
-	</ItemGroup>
-
 </Project>
