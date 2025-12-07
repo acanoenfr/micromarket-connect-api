@@ -1,7 +1,6 @@
-﻿using Com.MicroMarketConnect.API.Infrastructure.Providers;
-using System.IdentityModel.Tokens.Jwt;
+﻿using Com.MicroMarketConnect.API.Domain.IdentityModule.Aggregates.Enums;
+using Com.MicroMarketConnect.API.Infrastructure.Providers;
 using System.Security.Authentication;
-using System.Security.Claims;
 
 namespace Com.MicroMarketConnect.API.Web.Middlewares;
 
@@ -18,11 +17,11 @@ public class UserMiddleware
     {
         try
         {
-            var id = context.User.Claims.FirstOrDefault(claim => claim.Type.Equals(JwtRegisteredClaimNames.Sub))?.Value;
-            var username = context.User.Claims.FirstOrDefault(claim => claim.Type.Equals(JwtRegisteredClaimNames.PreferredUsername))?.Value;
-            var email = context.User.Claims.FirstOrDefault(claim => claim.Type.Equals(JwtRegisteredClaimNames.Email))?.Value;
+            var id = context.User.Claims.FirstOrDefault(claim => claim.Type.Equals(JwtClaims.Id))?.Value;
+            var username = context.User.Claims.FirstOrDefault(claim => claim.Type.Equals(JwtClaims.PreferredUsername))?.Value;
+            var email = context.User.Claims.FirstOrDefault(claim => claim.Type.Equals(JwtClaims.Email))?.Value;
             var roles = context.User.Claims
-                .Where(claim => claim.Type.Equals(ClaimTypes.Role))
+                .Where(claim => claim.Type.Equals(JwtClaims.Roles))
                 .Select(x => x.Value)
                 .ToArray();
 

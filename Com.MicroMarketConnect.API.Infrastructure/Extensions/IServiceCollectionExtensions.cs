@@ -1,7 +1,11 @@
-﻿using Com.MicroMarketConnect.API.Application.Write.Ports;
+﻿using Com.MicroMarketConnect.API.Application.Read.Ports;
+using Com.MicroMarketConnect.API.Application.Write.Ports;
 using Com.MicroMarketConnect.API.Core.Ports;
 using Com.MicroMarketConnect.API.Infrastructure.Configurations;
 using Com.MicroMarketConnect.API.Infrastructure.Database;
+using Com.MicroMarketConnect.API.Infrastructure.Identity;
+using Com.MicroMarketConnect.API.Infrastructure.Identity.Organizations;
+using Com.MicroMarketConnect.API.Infrastructure.Identity.Users;
 using Com.MicroMarketConnect.API.Infrastructure.Metrics;
 using Com.MicroMarketConnect.API.Infrastructure.Orchestration;
 using Com.MicroMarketConnect.API.Infrastructure.Providers;
@@ -59,13 +63,23 @@ public static class IServiceCollectionExtensions
             options.UseSqlServer(connection, sqlOptions => sqlOptions.CommandTimeout(30));
         });
 
-        return services;
+        return services
+            .AddTransient<IIdentityDbContext, IdentityDbContext>();
     }
 
     public static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         return services
-            .AddScoped<IDomainEventsRepository, DomainEventsRepository>();
+            .AddScoped<IDomainEventsRepository, DomainEventsRepository>()
+            // Users
+            .AddScoped<IDomainEventRepository, UserDomainEventRepository>()
+            .AddScoped<IDomainEventRepository, UserRoleDomainEventRepository>()
+            .AddScoped<IUserCommandRepository, UserCommandRepository>()
+            // Organizations
+            .AddScoped<IDomainEventRepository, OrganizationDomainEventRepository>()
+            .AddScoped<IDomainEventRepository, OrganizationMemberDomainEventRepository>()
+            .AddScoped<IOrganizationCommandRepository, OrganizationCommandRepository>()
+            .AddScoped<IOrganizationQueryRepository, OrganizationQueryRepository>();
     }
 
     public static IServiceCollection AddOrchestration(this IServiceCollection services)

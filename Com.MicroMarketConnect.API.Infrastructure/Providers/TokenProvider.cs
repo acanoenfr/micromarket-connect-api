@@ -1,11 +1,13 @@
 ﻿using Com.MicroMarketConnect.API.Application.Write.Ports;
 using Com.MicroMarketConnect.API.Core.Ports;
+using Com.MicroMarketConnect.API.Domain.IdentityModule.Aggregates.Enums;
 using Com.MicroMarketConnect.API.Infrastructure.Configurations;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 
 namespace Com.MicroMarketConnect.API.Infrastructure.Providers;
 
@@ -26,13 +28,15 @@ public class TokenProvider : ITokenProvider
     {
         var claims = new List<Claim>
         {
-            new(JwtRegisteredClaimNames.Sub, id.ToString()),
-            new(JwtRegisteredClaimNames.Email, email),
-            new(JwtRegisteredClaimNames.PreferredUsername, email)
+            new(JwtClaims.Id, id.ToString()),
+            new(JwtClaims.Email, email),
+            new(JwtClaims.PreferredUsername, email)
         };
 
         foreach (var role in roles)
-            claims.Add(new Claim(ClaimTypes.Role, role));
+        {
+            claims.Add(new Claim(JwtClaims.Roles, role));
+        }
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.Secret));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

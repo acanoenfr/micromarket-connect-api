@@ -16,9 +16,4 @@
     <ProjectReference Include="..\Com.MicroMarketConnect.API.Domain\Com.MicroMarketConnect.API.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Queries\" />
-    <Folder Include="Ports\" />
-  </ItemGroup>
-
 </Project>
