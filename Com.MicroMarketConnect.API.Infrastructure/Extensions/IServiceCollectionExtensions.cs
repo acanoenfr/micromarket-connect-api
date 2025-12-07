@@ -79,8 +79,7 @@ public static class IServiceCollectionExtensions
             .AddScoped<IDomainEventRepository, OrganizationDomainEventRepository>()
             .AddScoped<IDomainEventRepository, OrganizationMemberDomainEventRepository>()
             .AddScoped<IOrganizationCommandRepository, OrganizationCommandRepository>()
-            .AddScoped<IOrganizationQueryRepository, OrganizationQueryRepository>()
-            .AddScoped<IOrganizationMemberQueryRepository, OrganizationMemberQueryRepository>();
+            .AddScoped<IOrganizationQueryRepository, OrganizationQueryRepository>();
     }
 
     public static IServiceCollection AddOrchestration(this IServiceCollection services)

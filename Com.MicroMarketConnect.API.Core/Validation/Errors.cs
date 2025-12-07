@@ -6,6 +6,7 @@ public static class Errors
 {
     public static Generic Generic { get; } = new Generic();
     public static NotFound NotFound { get; } = new NotFound();
+    public static Forbidden Forbidden { get; } = new Forbidden();
     public static Conflict Conflict { get; } = new Conflict();
     public static BadRequest BadRequest { get; } = new BadRequest();
 
@@ -25,5 +26,6 @@ public class ValidationError : Error
 
 public class Generic : Error { }
 public class NotFound : Error { }
+public class Forbidden : Error { }
 public class Conflict : Error { }
 public class BadRequest : Error { }

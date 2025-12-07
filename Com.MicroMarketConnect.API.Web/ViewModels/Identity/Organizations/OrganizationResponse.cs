@@ -4,4 +4,5 @@ public record OrganizationResponse(
     Guid Id,
     string Name,
     string DisplayName,
-    string? Description);
+    string? Description,
+    IReadOnlyCollection<OrganizationMemberResponse> Members);

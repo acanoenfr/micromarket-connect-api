@@ -1,11 +1,8 @@
 ﻿using Asp.Versioning;
-using Com.MicroMarketConnect.API.Application.Read.Queries.Identity.OrganizationMembers;
 using Com.MicroMarketConnect.API.Application.Write.Commands.Identity.OrganizationMembers;
 using Com.MicroMarketConnect.API.Domain.IdentityModule.Aggregates.Enums;
 using Com.MicroMarketConnect.API.Infrastructure.Orchestration;
-using Com.MicroMarketConnect.API.Web.Extensions.QueryModels;
 using Com.MicroMarketConnect.API.Web.ViewModels.Identity.OrganizationMembers;
-using Com.MicroMarketConnect.API.Web.ViewModels.Identity.Organizations;
 using FluentResults;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,24 +14,6 @@ namespace Com.MicroMarketConnect.API.Web.Controllers.Identity.Organizations;
 [ApiController]
 public class OrganizationMemberController(WebDispatcher dispatcher) : ControllerBase
 {
-    [HttpGet("{name}/members")]
-    [Authorize(Roles = UserRoleClaims.PlatformUser)]
-    [MapToApiVersion("1.0")]
-    [ProducesResponseType(typeof(IReadOnlyCollection<OrganizationMemberResponse>), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<IReadOnlyCollection<OrganizationMemberResponse>>> GetOrganizationMembers(
-        [FromRoute(Name = "name")] string name)
-    {
-        var result = await dispatcher.Dispatch(new GetOrganizationMemberQuery(name));
-
-        return result.ToActionResult(
-            v => Ok(v.ToViewModel()),
-            err => err.FirstOrDefault() switch
-            {
-                _ => StatusCode(500, err.FirstOrDefault())
-            });
-    }
-
     [HttpPost("{id}/members")]
     [Authorize(Roles = UserRoleClaims.PlatformUser)]
     [MapToApiVersion("1.0")]

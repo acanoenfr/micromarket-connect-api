@@ -6,4 +6,5 @@ public class OrganizationQueryModel
     public required string Name { get; set; }
     public required string DisplayName { get; set; }
     public string? Description { get; set; }
+    public required IReadOnlyCollection<OrganizationMember> Members { get; set; }
 }

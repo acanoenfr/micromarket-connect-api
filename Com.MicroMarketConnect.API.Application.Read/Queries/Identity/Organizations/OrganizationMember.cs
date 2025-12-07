@@ -1,6 +1,6 @@
-﻿namespace Com.MicroMarketConnect.API.Application.Read.Queries.Identity.OrganizationMembers;
+﻿namespace Com.MicroMarketConnect.API.Application.Read.Queries.Identity.Organizations;
 
-public class OrganizationMemberQueryModel
+public class OrganizationMember
 {
     public Guid Id { get; set; }
     public required string DisplayName { get; set; }

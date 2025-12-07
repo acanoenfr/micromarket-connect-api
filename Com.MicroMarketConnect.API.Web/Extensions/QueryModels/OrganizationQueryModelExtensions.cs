@@ -10,5 +10,16 @@ public static class OrganizationQueryModelExtensions
             model.Id,
             model.Name,
             model.DisplayName,
-            model.Description);
+            model.Description,
+            model.Members.ToViewModel());
+
+    public static IReadOnlyCollection<OrganizationMemberResponse> ToViewModel(this IReadOnlyCollection<OrganizationMember> model)
+        => model.Select(ToViewModel).ToList().AsReadOnly();
+
+    public static OrganizationMemberResponse ToViewModel(this OrganizationMember model)
+        => new(
+            model.Id,
+            model.DisplayName,
+            model.Email,
+            model.Role);
 }

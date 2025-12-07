@@ -1,6 +1,7 @@
 ﻿using Com.MicroMarketConnect.API.Application.Write.Ports;
 using Com.MicroMarketConnect.API.Core.Validation;
 using Com.MicroMarketConnect.API.Domain.IdentityModule.Aggregates.Enums;
+using Com.MicroMarketConnect.API.Domain.SharedModule.Aggregates;
 using FluentResults;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,13 +24,13 @@ public class OrganizationCommandRepository(
         }
     }
 
-    public async Task<Result<bool>> IsGrantAccess(string name, string role, Guid userId)
+    public async Task<Result<bool>> IsGrantAccess(Guid id, string role, Guid userId)
     {
         try
         {
             var organization = await dbContext.Organizations
                 .Include(o => o.Members)
-                .Where(o => o.Name.Equals(name))
+                .Where(o => o.Id.Equals(id))
                 .FirstOrDefaultAsync();
 
             if (organization is null)
